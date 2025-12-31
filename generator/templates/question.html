@@ -5,7 +5,7 @@
 {% block title %}Pregunta {{ question.number }} - {{ title }}{% endblock %}
 
 {% block content %}
-<nav class="breadcrumb" aria-label="Navegacion">
+<nav class="breadcrumb" aria-label="Navegación">
     <a href="/">Inicio</a>
     <span class="breadcrumb-sep">&rsaquo;</span>
     <span>Pregunta {{ question.number }}</span>
@@ -23,7 +23,7 @@
     {% if question.beddome_expansion %}
     <section class="beddome-section">
         <div class="section-header">
-            <h2>Exposicion de Beddome</h2>
+            <h2>Exposición de Beddome</h2>
             <div class="expand-controls">
                 <button type="button" class="expand-btn" id="expand-all">Expandir todo</button>
                 <button type="button" class="expand-btn" id="collapse-all">Colapsar todo</button>
@@ -33,7 +33,7 @@
         {% for group in question.beddome_expansion %}
         <div class="beddome-group" id="grupo-{{ loop.index }}">
             <button type="button" class="group-toggle" aria-expanded="true" aria-controls="group-content-{{ loop.index }}">
-                <span class="group-title">Secci&otilde;n {{ loop.index }}</span>
+                <span class="group-title">Sección {{ loop.index }}</span>
                 <span class="toggle-icon">&#9660;</span>
             </button>
             <div class="group-content" id="group-content-{{ loop.index }}">
@@ -60,7 +60,7 @@
     {% endif %}
 </article>
 
-<nav class="question-nav" aria-label="Navegacion entre preguntas">
+<nav class="question-nav" aria-label="Navegación entre preguntas">
     {% if prev_question %}
     <a href="/pregunta/{{ prev_question.number }}.html" class="nav-prev">
         <span class="nav-arrow">&larr;</span>

@@ -1,0 +1,13 @@
+# Generated files
+docs/
+
+# Jinja templates (handled by djlint)
+generator/templates/
+
+# Dependencies
+.venv/
+node_modules/
+
+# Large JSON data
+catecismo-bautista-con-beddome-es.json
+working-text/

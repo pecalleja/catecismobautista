@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block meta_description %}Pregunta {{ question.number }}: {{ question.question }} - {{ question.full_answer|truncate(150) }}{% endblock %}
+
+{% block title %}Pregunta {{ question.number }} - {{ title }}{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Navegacion">
+    <a href="/">Inicio</a>
+    <span class="breadcrumb-sep">&rsaquo;</span>
+    <span>Pregunta {{ question.number }}</span>
+</nav>
+
+<article class="question-page">
+    <header class="question-header">
+        <div class="question-number-badge">{{ question.number }}</div>
+        <h1 class="main-question">{{ question.question }}</h1>
+        <div class="main-answer">
+            <strong>R:</strong> {{ question.full_answer }}
+        </div>
+    </header>
+
+    {% if question.beddome_expansion %}
+    <section class="beddome-section">
+        <div class="section-header">
+            <h2>Exposicion de Beddome</h2>
+            <div class="expand-controls">
+                <button type="button" class="expand-btn" id="expand-all">Expandir todo</button>
+                <button type="button" class="expand-btn" id="collapse-all">Colapsar todo</button>
+            </div>
+        </div>
+
+        {% for group in question.beddome_expansion %}
+        <div class="beddome-group" id="grupo-{{ loop.index }}">
+            <button type="button" class="group-toggle" aria-expanded="true" aria-controls="group-content-{{ loop.index }}">
+                <span class="group-title">Secci&otilde;n {{ loop.index }}</span>
+                <span class="toggle-icon">&#9660;</span>
+            </button>
+            <div class="group-content" id="group-content-{{ loop.index }}">
+                <dl class="subquestion-list">
+                    {% for item in group['items'] %}
+                    <div class="subquestion-item">
+                        <dt class="sub-question">{{ item.question }}</dt>
+                        <dd class="sub-answer">
+                            <span class="answer-text">{{ item.answer }}</span>
+                            {% if item.verse %}
+                            <blockquote class="scripture-verse">
+                                <p>{{ item.verse }}</p>
+                                <cite class="scripture-ref">{{ item.reference }}</cite>
+                            </blockquote>
+                            {% endif %}
+                        </dd>
+                    </div>
+                    {% endfor %}
+                </dl>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+</article>
+
+<nav class="question-nav" aria-label="Navegacion entre preguntas">
+    {% if prev_question %}
+    <a href="/pregunta/{{ prev_question.number }}.html" class="nav-prev">
+        <span class="nav-arrow">&larr;</span>
+        <span class="nav-label">
+            <span class="nav-direction">Anterior</span>
+            <span class="nav-title">{{ prev_question.number }}. {{ prev_question.question|truncate(40) }}</span>
+        </span>
+    </a>
+    {% else %}
+    <span class="nav-placeholder"></span>
+    {% endif %}
+
+    <a href="/" class="nav-home" aria-label="Volver al inicio">
+        <span class="home-icon">&#127968;</span>
+    </a>
+
+    {% if next_question %}
+    <a href="/pregunta/{{ next_question.number }}.html" class="nav-next">
+        <span class="nav-label">
+            <span class="nav-direction">Siguiente</span>
+            <span class="nav-title">{{ next_question.number }}. {{ next_question.question|truncate(40) }}</span>
+        </span>
+        <span class="nav-arrow">&rarr;</span>
+    </a>
+    {% else %}
+    <span class="nav-placeholder"></span>
+    {% endif %}
+</nav>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Group toggle functionality
+    const toggles = document.querySelectorAll('.group-toggle');
+
+    toggles.forEach(function(toggle) {
+        toggle.addEventListener('click', function() {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            const contentId = this.getAttribute('aria-controls');
+            const content = document.getElementById(contentId);
+
+            this.setAttribute('aria-expanded', !expanded);
+            content.classList.toggle('collapsed', expanded);
+        });
+    });
+
+    // Expand all
+    document.getElementById('expand-all').addEventListener('click', function() {
+        toggles.forEach(function(toggle) {
+            toggle.setAttribute('aria-expanded', 'true');
+            const contentId = toggle.getAttribute('aria-controls');
+            document.getElementById(contentId).classList.remove('collapsed');
+        });
+    });
+
+    // Collapse all
+    document.getElementById('collapse-all').addEventListener('click', function() {
+        toggles.forEach(function(toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            const contentId = toggle.getAttribute('aria-controls');
+            document.getElementById(contentId).classList.add('collapsed');
+        });
+    });
+});
+</script>
+{% endblock %}

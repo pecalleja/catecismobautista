@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block meta_description %}El Catecismo Bautista con la Exposicion Biblica de Beddome - {{ total_questions }} preguntas y respuestas para la instruccion en la fe cristiana.{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ title }}</h1>
+    <p class="subtitle">{{ description }}</p>
+    <p class="stats">{{ total_questions }} preguntas con exposicion biblica</p>
+</div>
+
+<section class="toc-section">
+    <div class="toc-header">
+        <h2>Tabla de Contenido</h2>
+        <div class="toc-search">
+            <input type="text" id="toc-filter" placeholder="Filtrar preguntas..." aria-label="Filtrar preguntas">
+        </div>
+    </div>
+
+    <ol class="question-list">
+        {% for q in questions %}
+        <li class="question-item" data-number="{{ q.number }}">
+            <a href="/pregunta/{{ q.number }}.html" class="question-link">
+                <span class="question-number">{{ q.number }}</span>
+                <span class="question-text">
+                    <span class="q-title">{{ q.question }}</span>
+                    <span class="q-answer">{{ q.full_answer }}</span>
+                </span>
+            </a>
+        </li>
+        {% endfor %}
+    </ol>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filter = document.getElementById('toc-filter');
+    const items = document.querySelectorAll('.question-item');
+
+    filter.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+
+        items.forEach(function(item) {
+            const text = item.textContent.toLowerCase();
+            if (query === '' || text.includes(query)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

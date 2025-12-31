@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block meta_description %}Estadisticas del Catecismo Bautista - Referencias biblicas, terminos frecuentes, y analisis de las {{ total_questions }} preguntas.{% endblock %}
+
+{% block title %}Estadisticas - {{ title }}{% endblock %}
+
+{% block og_title %}Estadisticas del Catecismo Bautista{% endblock %}
+{% block og_description %}Analisis estadistico de las {{ total_questions }} preguntas del Catecismo Bautista: referencias biblicas mas citadas, terminos frecuentes y mas.{% endblock %}
+{% block og_url %}https://catecismobautista.com/estadisticas.html{% endblock %}
+{% block canonical_url %}https://catecismobautista.com/estadisticas.html{% endblock %}
+
+{% block content %}
+<div class="stats-page">
+    <header class="stats-header">
+        <h1>Estadisticas del Catecismo</h1>
+        <p>Analisis de las {{ statistics.summary.total_questions }} preguntas y {{ statistics.summary.total_subquestions }} subpreguntas del Catecismo Bautista con la Exposicion de Beddome.</p>
+    </header>
+
+    <!-- Summary Cards -->
+    <section class="stats-summary">
+        <div class="stat-card">
+            <div class="stat-value">{{ statistics.summary.total_questions }}</div>
+            <div class="stat-label">Preguntas</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ statistics.summary.total_subquestions }}</div>
+            <div class="stat-label">Subpreguntas</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ statistics.summary.unique_references }}</div>
+            <div class="stat-label">Referencias Unicas</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ statistics.summary.avg_subquestions_per_question }}</div>
+            <div class="stat-label">Promedio Subpreg./Preg.</div>
+        </div>
+    </section>
+
+    <!-- Top References -->
+    <section class="stats-section">
+        <h2>Top 10 Referencias Biblicas Mas Citadas</h2>
+        <div class="chart-container">
+            <canvas id="top-references-chart"></canvas>
+        </div>
+        <ol class="reference-list">
+            {% for ref in statistics.top_references %}
+            <li><strong>{{ ref.reference }}</strong> - {{ ref.count }} citas</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <!-- Questions by Complexity -->
+    <section class="stats-section">
+        <h2>Preguntas con Mas Subpreguntas</h2>
+        <div class="chart-container">
+            <canvas id="complexity-chart"></canvas>
+        </div>
+        <ol class="complexity-list">
+            {% for q in statistics.questions_by_subquestion_count[:10] %}
+            <li>
+                <a href="/pregunta/{{ q.number }}.html">
+                    <span class="q-number">{{ q.number }}.</span>
+                    {{ q.question|truncate(60) }}
+                </a>
+                <span class="subq-count">{{ q.subquestion_count }} subpreguntas</span>
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <!-- Term Frequency -->
+    <section class="stats-section">
+        <h2>Terminos Mas Frecuentes</h2>
+        <div class="wordcloud-container" id="wordcloud"></div>
+        <div class="term-list">
+            <h3>Top 20 Terminos</h3>
+            <ol class="terms-grid">
+                {% for term in statistics.term_frequency[:20] %}
+                <li><span class="term">{{ term.term }}</span> <span class="term-count">{{ term.count }}</span></li>
+                {% endfor %}
+            </ol>
+        </div>
+    </section>
+
+    <!-- Bible Coverage -->
+    <section class="stats-section">
+        <h2>Cobertura Biblica</h2>
+        <div class="bible-coverage">
+            <div class="testament">
+                <h3>Antiguo Testamento</h3>
+                <div class="chart-container chart-small">
+                    <canvas id="ot-chart"></canvas>
+                </div>
+            </div>
+            <div class="testament">
+                <h3>Nuevo Testamento</h3>
+                <div class="chart-container chart-small">
+                    <canvas id="nt-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripture Concordance Preview -->
+    <section class="stats-section">
+        <h2>Concordancia de Escrituras</h2>
+        <p>Las referencias mas citadas y las preguntas donde aparecen:</p>
+        <div class="concordance-preview">
+            {% for ref in statistics.top_references[:5] %}
+            <details class="concordance-item">
+                <summary>
+                    <strong>{{ ref.reference }}</strong> ({{ ref.count }} citas)
+                </summary>
+                <ul>
+                    {% for cite in statistics.scripture_concordance[ref.reference][:5] %}
+                    <li>
+                        <a href="/pregunta/{{ cite.question }}.html">Pregunta {{ cite.question }}</a>:
+                        {{ cite.subquestion }}...
+                    </li>
+                    {% endfor %}
+                    {% if statistics.scripture_concordance[ref.reference]|length > 5 %}
+                    <li class="more">...y {{ statistics.scripture_concordance[ref.reference]|length - 5 }} mas</li>
+                    {% endif %}
+                </ul>
+            </details>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+<script>
+    // Pass data to JavaScript
+    window.STATS_DATA = {{ statistics|tojson }};
+</script>
+<script src="/js/statistics.js"></script>
+{% endblock %}

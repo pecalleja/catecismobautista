@@ -6,6 +6,27 @@
     <meta name="description" content="{% block meta_description %}El Catecismo Bautista con la Exposición Bíblica de Beddome{% endblock %}">
     <title>{% block title %}{{ title }}{% endblock %}</title>
 
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}{{ title }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}El Catecismo Bautista con la Exposición Bíblica de Beddome - 114 preguntas y respuestas para la instrucción en la fe cristiana.{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}https://catecismobautista.com/{% endblock %}">
+    <meta property="og:image" content="https://catecismobautista.com/images/og-image.png">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:site_name" content="El Catecismo Bautista">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ title }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}El Catecismo Bautista con la Exposición Bíblica de Beddome{% endblock %}">
+    <meta name="twitter:image" content="https://catecismobautista.com/images/og-image.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical_url %}https://catecismobautista.com/{% endblock %}">
+
+    <!-- JSON-LD Structured Data -->
+    {% block structured_data %}{% endblock %}
+
     <!-- Google Analytics 4 - Only loaded after consent -->
     <script>
         window.GA_MEASUREMENT_ID = 'G-JB1DW6XKJ9';
@@ -50,6 +71,7 @@
             <div class="nav-links">
                 <a href="/" class="nav-link">Inicio</a>
                 <a href="/buscar.html" class="nav-link">Buscar</a>
+                <a href="/estadisticas.html" class="nav-link">Estadisticas</a>
                 <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
                     <span class="theme-icon-light">&#9728;</span>
                     <span class="theme-icon-dark">&#9790;</span>
@@ -68,6 +90,7 @@
             <p class="footer-links">
                 <a href="/">Inicio</a> &middot;
                 <a href="/buscar.html">Buscar</a> &middot;
+                <a href="/estadisticas.html">Estadisticas</a> &middot;
                 <a href="https://github.com/pecalleja/CatecismoBautista" target="_blank" rel="noopener">GitHub</a>
             </p>
         </div>

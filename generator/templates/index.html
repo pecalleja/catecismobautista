@@ -4,6 +4,28 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block og_url %}https://catecismobautista.com/{% endblock %}
+{% block og_type %}website{% endblock %}
+{% block canonical_url %}https://catecismobautista.com/{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ title }}",
+  "description": "{{ description }}",
+  "url": "https://catecismobautista.com/",
+  "inLanguage": "es",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://catecismobautista.com/buscar.html?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="page-header">
     <h1>{{ title }}</h1>
@@ -34,23 +56,66 @@
     </ol>
 </section>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/unified-search.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const filter = document.getElementById('toc-filter');
-    const items = document.querySelectorAll('.question-item');
+    var filter = document.getElementById('toc-filter');
+    var items = document.querySelectorAll('.question-item');
 
-    filter.addEventListener('input', function() {
-        const query = this.value.toLowerCase().trim();
+    // Store original text content for restoration
+    var originalContent = [];
+    items.forEach(function(item) {
+        var titleEl = item.querySelector('.q-title');
+        var answerEl = item.querySelector('.q-answer');
+        originalContent.push({
+            title: titleEl ? titleEl.textContent : '',
+            answer: answerEl ? answerEl.textContent : ''
+        });
+    });
 
-        items.forEach(function(item) {
-            const text = item.textContent.toLowerCase();
-            if (query === '' || text.includes(query)) {
+    function debounce(func, wait) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function() { func.apply(context, args); }, wait);
+        };
+    }
+
+    var filterItems = debounce(function() {
+        var query = filter.value.trim();
+
+        items.forEach(function(item, index) {
+            var titleEl = item.querySelector('.q-title');
+            var answerEl = item.querySelector('.q-answer');
+            var original = originalContent[index];
+
+            if (query.length < 2) {
                 item.style.display = '';
+                // Restore original text (no highlighting)
+                if (titleEl) titleEl.innerHTML = UnifiedSearch.escapeHtml(original.title);
+                if (answerEl) answerEl.innerHTML = UnifiedSearch.escapeHtml(original.answer);
+                return;
+            }
+
+            var matchesTitle = UnifiedSearch.textContains(original.title, query);
+            var matchesAnswer = UnifiedSearch.textContains(original.answer, query);
+
+            if (matchesTitle || matchesAnswer) {
+                item.style.display = '';
+                // Apply highlighting
+                if (titleEl) titleEl.innerHTML = UnifiedSearch.highlightText(original.title, query);
+                if (answerEl) answerEl.innerHTML = UnifiedSearch.highlightText(original.answer, query);
             } else {
                 item.style.display = 'none';
             }
         });
-    });
+    }, 150);
+
+    filter.addEventListener('input', filterItems);
 });
 </script>
 {% endblock %}

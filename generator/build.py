@@ -299,7 +299,7 @@ def copy_static_files(static_path: Path, output_path: Path) -> None:
 
 
 def generate_sitemap(
-    data: dict, output_path: Path, base_url: str = "https://catecismobautista.com"
+    data: dict, output_path: Path, base_url: str = "https://catecismobautista.org"
 ) -> None:
     """Generate sitemap.xml for SEO."""
     today = datetime.now().strftime("%Y-%m-%d")
@@ -364,7 +364,7 @@ def generate_sitemap(
 
 
 def generate_robots_txt(
-    output_path: Path, base_url: str = "https://catecismobautista.com"
+    output_path: Path, base_url: str = "https://catecismobautista.org"
 ) -> None:
     """Generate robots.txt for SEO."""
     content = f"""User-agent: *

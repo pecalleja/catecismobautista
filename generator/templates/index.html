@@ -4,9 +4,9 @@
 
 {% block title %}{{ title }}{% endblock %}
 
-{% block og_url %}https://catecismobautista.com/{% endblock %}
+{% block og_url %}https://catecismobautista.org/{% endblock %}
 {% block og_type %}website{% endblock %}
-{% block canonical_url %}https://catecismobautista.com/{% endblock %}
+{% block canonical_url %}https://catecismobautista.org/{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -15,11 +15,11 @@
   "@type": "WebSite",
   "name": "{{ title }}",
   "description": "{{ description }}",
-  "url": "https://catecismobautista.com/",
+  "url": "https://catecismobautista.org/",
   "inLanguage": "es",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://catecismobautista.com/buscar.html?q={search_term_string}",
+    "target": "https://catecismobautista.org/buscar.html?q={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 }
@@ -32,6 +32,22 @@
     <p class="subtitle">{{ description }}</p>
     <p class="stats">{{ total_questions }} preguntas con exposición bíblica</p>
 </div>
+
+<section class="source-info">
+    <div class="source-content">
+        <div class="source-image">
+            <a href="https://drive.google.com/file/d/1hqUOSYdCYt7kcIlsZLiFZ-vv7hGdylNk/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+                <img src="/static/images/47-Portada-Edicion-de-Lectura-01-min-1325x2048-1-994x1536.webp" alt="Portada del Catecismo Bautista - Edición de Lectura" loading="lazy">
+            </a>
+        </div>
+        <div class="source-text">
+            <p>Este sitio web está construido a partir del libro publicado en la Edición de Lectura por <strong>© <a href="https://legadobautistaconfesional.com/" target="_blank" rel="noopener noreferrer">Editorial Legado Bautista Confesional</a></strong> (Santo Domingo – Ecuador, 2022).</p>
+            <a href="https://drive.google.com/file/d/1hqUOSYdCYt7kcIlsZLiFZ-vv7hGdylNk/view?usp=drive_link" class="download-btn" target="_blank" rel="noopener noreferrer">
+                Descarga Gratis PDF
+            </a>
+        </div>
+    </div>
+</section>
 
 <section class="toc-section">
     <div class="toc-header">

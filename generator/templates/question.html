@@ -6,11 +6,11 @@
 
 {% block og_title %}Pregunta {{ question.number }}: {{ question.question }}{% endblock %}
 {% block og_description %}{{ question.full_answer|truncate(200) }}{% endblock %}
-{% block og_url %}https://catecismobautista.com/pregunta/{{ question.number }}.html{% endblock %}
+{% block og_url %}https://catecismobautista.org/pregunta/{{ question.number }}.html{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block twitter_title %}Pregunta {{ question.number }}: {{ question.question }}{% endblock %}
 {% block twitter_description %}{{ question.full_answer|truncate(200) }}{% endblock %}
-{% block canonical_url %}https://catecismobautista.com/pregunta/{{ question.number }}.html{% endblock %}
+{% block canonical_url %}https://catecismobautista.org/pregunta/{{ question.number }}.html{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -50,13 +50,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Inicio",
-      "item": "https://catecismobautista.com/"
+      "item": "https://catecismobautista.org/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Pregunta {{ question.number }}",
-      "item": "https://catecismobautista.com/pregunta/{{ question.number }}.html"
+      "item": "https://catecismobautista.org/pregunta/{{ question.number }}.html"
     }
   ]
 }

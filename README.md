@@ -78,7 +78,7 @@ El sitio se despliega automaticamente en GitHub Pages cuando se hace push a la r
    - A record: `185.199.109.153`
    - A record: `185.199.110.153`
    - A record: `185.199.111.153`
-   - CNAME: `www` -> `pecalleja.github.io`
+   - CNAME: `www` -> `legadobautistaconfesional.github.io`
 
 3. Esperar propagacion DNS (hasta 48 horas, usualmente menos de 1 hora)
 
